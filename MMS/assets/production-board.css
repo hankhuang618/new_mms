@@ -1,0 +1,287 @@
+
+
+.production-board-page header {
+  font-size: 25px; /* 設定字體大小 */
+  font-weight: bold; /* 設定字體加粗 */
+  margin-bottom: 15px; /* 設定底部外邊距 */
+  border-bottom: 2px solid #ecf0f1; /* 設定底部邊框顏色 */
+  padding-bottom: 8px; /* 設定底部內邊距 */
+  width: 100%; /* 讓標題寬度填滿容器 */
+  text-align: center; /* 讓標題置中 */
+}
+
+.production-board-page .info-container {
+  display: flex; /* 使用 Flexbox 來對齊內容 */
+  flex-wrap: wrap; /* 允許內容自動換行 */
+  gap: 10px; /* 設定內容之間的間距 */
+  justify-content: center; /* 讓內容在水平方向置中 */
+  align-items: center; /* 讓內容在垂直方向置中 */
+  width: 100%; /* 設定寬度為 100% */
+}
+
+.production-board-page label {
+  font-size: 14px; /* 設定標籤的字體大小 */
+  background: transparent; /* 設定背景為透明 */
+  padding: 5px 10px; /* 設定內邊距 */
+  border-radius: 0; /* 移除圓角 */
+  text-align: center; /* 讓文字置中 */
+  min-width: 100px; /* 設定最小寬度，確保標籤大小一致 */
+  border: none; /* 移除邊框 */
+}
+
+.production-board-page button {
+  background-color: #e2e6e7; /* 淺灰色背景 */
+  color: #000000; /* 深灰文字 */
+  border: 2px solid #000000; /* 黑色實線邊框 */
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.production-board-page button:hover {
+  background-color: #aeb6bf; /* 滑過時變深一點的灰色 */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.production-board-page button:active {
+  background-color: #99a3a4; /* 按下時再深一點 */
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* 限制表格容器的最大高度，當內容超出時啟用水平滾動條 */
+.production-board-page .table-container {
+  overflow-x: auto; /* 啟用橫向滾動條 */
+  max-height: 400px; /* 最大高度 400px，超過則滾動 */
+}
+
+/* 設定表格及 Element UI 的 .el-table 樣式 */
+.production-board-page table, .el-table {
+  width: 100%; /* 讓表格寬度撐滿容器 */
+  border-collapse: collapse; /* 合併邊框，避免雙邊框 */
+  margin-top: 5px; /* 與上方元素間距 10px */
+  font-size: 14px; /* 預設字體大小 12px */
+  min-width: 1200px; /* 設定最小寬度，避免表格太窄 */
+  background: #ffffff; /* 背景色為深藍色 */
+  border-radius: 5px; /* 讓表格四角略微圓滑 */
+}
+
+/* 設定表格標題的樣式 */
+.production-board-page caption {
+  font-size: 16px; /* 標題字體大小 16px */
+  font-weight: bold; /* 加粗字體 */
+  margin-bottom: 5px; /* 與表格間距 5px */
+}
+
+/* 設定表格內的標題 (th) 和單元格 (td) 樣式 */
+.production-board-page th, td, .el-table th, .el-table td {
+  border: 2px solid #ddd;
+  padding:0px !important; /* 內邊距 8px */
+  font-size: clamp(2px, 1vw, 14px); /* 響應式字體大小，最小 2px，最大 14px */
+  white-space: nowrap; /* 禁止換行 */
+  overflow: hidden; /* 超出部分隱藏 */
+  text-overflow: ellipsis !important; /* 超出顯示省略號 */
+  text-align: center; /* 內容置中 */
+
+  vertical-align: middle; /* 垂直置中 */
+}
+
+/* 設定表格標題 (th) 背景色 */
+.production-board-page th, .el-table th {
+  background: #6b675d !important; /* 設定橘黃色背景 */
+  color: rgb(255, 255, 255); /* 文字顏色為黑色 */
+  padding: 0px !important; /* 內邊距 8px */
+}
+
+/* 設定表格內容 (td) 背景色 */
+.production-board-page td, .el-table td {
+  background: #ffffff; /* 深藍灰色背景 */
+  color: rgb(0, 0, 0); /* 文字顏色為黑色 */
+  padding:0px !important; /* 內邊距 8px */
+  text-align: center; /* 內容置中 */
+  vertical-align: middle; /* 垂直置中 */
+
+}
+
+/* 設定輸入框 (Element UI 的 .el-input 內部樣式) */
+.production-board-page .el-input__inner, .el-select {
+  background: transparent !important; /* 透明背景 */
+  color: #000000 !important; /* 黑色文字 */
+  border: none !important; /* 移除邊框 */
+  text-align: center !important; /* 文字置中 */
+  vertical-align: middle !important; /* 垂直置中 */
+  font-size: 14px;
+  padding: 0 !important; /* 移除內邊距 */
+  height: auto !important; /* 自適應高度 */
+  line-height: 1 !important; /* 調整行高，避免額外空間 */
+  
+
+}
+
+/* 設定選擇下拉選單內的選項樣式 */
+.production-board-page .el-select-dropdown__item {
+  
+  color: #333 !important; /* 文字顏色為深灰色 */
+  padding: 8px; /* 內邊距 8px，讓選項更好點擊 */
+}
+
+/* 編輯模式 (當使用者編輯表格時的邊框效果) */
+.production-board-page .edit-mode {
+  border: 2px solid #000 !important; /* 黑色邊框 */
+  border-radius: 4px; /* 輕微圓角，使邊框不會太生硬 */
+  transition: all 0.3s ease-in-out; /* 平滑動畫效果 */
+}
+
+/* 滑鼠懸停在編輯模式時的效果 */
+.production-board-page .edit-mode:hover {
+  border-color: #444; /* 邊框顏色變為深灰色 */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* 加點淡淡的陰影，讓它更有立體感 */
+}
+.production-board-page .el-table tr:hover > td {
+  background-color: transparent !important; /* 透明，保持原背景 */
+  color: inherit !important; /* 文字顏色不變 */
+}
+
+/* 禁止 el-table 在 hover 時改變背景顏色 */
+.production-board-page .el-table__body tr:hover > td {
+  background-color: #ffffff !important; /* 設定與原本相同的背景色 */
+  color: rgb(0, 0, 0) !important; /* 保持文字顏色 */
+}
+
+/* 針對 .el-table__row 修正 hover 問題 */
+.production-board-page .el-table__row:hover {
+  background-color: #34495e !important;
+}
+/* 修改合計行 (summary row) 的背景顏色及文字顏色 */
+.production-board-page .el-table__footer-wrapper td {
+  background: #6b675d !important; /* 橘黃色背景 */
+  color: rgb(255, 255, 255) !important; /* 文字顏色改為黑色，確保可讀性 */
+  font-weight: bold; /* 讓合計行的文字更突出 */
+  text-align: center !important; /* 文字置中 */
+}
+
+.production-board-page .compact-row .el-table__cell {
+padding: 4px 0 !important; /* 減小上下間距 */
+height: 30px !important; /* 控制高度 */
+}
+
+.production-board-page .edit-mode-row .el-table__cell {
+padding: 10px 0 !important; /* 編輯模式時正常間距 */
+}
+/* 讓 span 內的文字強制置中 */
+.production-board-page span {
+          display: block;
+          text-align: center;
+          font-size: 12px;
+          padding: 0 !important; /* 移除內邊距 */
+  height: auto !important; /* 自適應高度 */
+  white-space: nowrap;
+
+      }
+/* 設定 el-switch 的間距 */
+.production-board-page .el-switch {
+  margin-right: 10px; /* 右邊間距 */
+}
+
+/* 調整 el-switch 與文字的對齊 */
+.production-board-page .el-switch .el-switch__label {
+  font-size: 14px; /* 文字大小 */
+  color: #333; /* 文字顏色 */
+}
+
+/* 設定開關的大小 */
+.production-board-page .el-switch .el-switch__core {
+  width: 40px !important; /* 調整開關的寬度 */
+  height: 20px !important; /* 調整開關的高度 */
+}
+
+/* 自定義開關開啟時的顏色 */
+.production-board-page .el-switch.is-checked .el-switch__core {
+  background-color: #409EFF !important; /* 例如藍色 */
+}
+
+/* 自定義開關關閉時的顏色 */
+.production-board-page .el-switch .el-switch__core {
+  background-color: #ccc !important; /* 灰色 */
+}
+
+
+.production-board-page .eff-label {
+font-weight: bold;
+color: #333;
+}
+
+.production-board-page .short-input {
+  width: 8ch;        /* 約可容納 4 個數字 + 一點間距 */
+  padding: 2px 4px;  /* 避免過高或太寬 */
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.production-board-page .header-select-white .el-input__inner {
+color: white !important;
+background-color: transparent;
+border-color: white;
+}
+
+.production-board-page .white-input .el-input__inner {
+color: white !important;
+background-color: transparent;
+border-color: white;
+font-size: 14px;
+}
+.production-board-page .modal {
+display: flex;
+justify-content: center;
+align-items: center;
+position: fixed;
+z-index: 1000;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.5);
+}
+.production-board-page .modal-content {
+background-color: #fefefe;
+padding: 20px;
+border-radius: 8px;
+width: 300px;
+text-align: center;
+}
+.production-board-page .section {
+  padding: 1px;
+  margin: 1px 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+.production-board-page .section-content {
+  font-size: 16px;
+  color: #333;
+  margin-top: 20px; /* 将 20px 替换为你想要的间距值 */
+}
+  @keyframes blink {
+    0% { background-color: red; }
+    50% { background-color: transparent; }
+    100% { background-color: red; }
+  }
+  
+  .production-board-page .low-efficiency {
+ /*  animation: blink 5s infinite; */
+    background-color: red;
+    padding: 2px 5px;
+    border-radius: 4px;
+    color: #ffffff;
+  }
+  .production-board-page .text-danger {
+ /*  animation: blink 5s infinite; */
+    background-color: red;
+    padding: 2px 5px;
+    border-radius: 4px;
+    color: #ffffff;
+  }

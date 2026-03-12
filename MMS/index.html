@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>MMS 製造管理系統</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="assets/style.css">
+
+  <!-- 禁快取（維持你原本策略） -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <script>
+    // 每次部署改這個版本號（用日期或 git 短哈希均可）
+    window.APP_BUILD = "2.35";
+    (function enforceFreshIndex() {
+      try {
+        var url = new URL(location.href);
+        var cur = url.searchParams.get("htmlv");
+        if (cur !== window.APP_BUILD) {
+          url.searchParams.set("htmlv", window.APP_BUILD);
+          location.replace(url.toString());
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- 🔤 全域 i18n（超輕量） -->
+  <script>
+    (function () {
+      const LS_KEY = 'mms_lang';
+      const supported = ['zh','en','vi'];
+      let current = localStorage.getItem(LS_KEY) || 'zh';
+      if (!supported.includes(current)) current = 'zh';
+
+      const dict = {
+        zh: {
+          app: { title: 'MMS 製造管理系統' },
+          common: {
+            language: '語言',
+            zh: '中文',
+            en: '英文',
+            vi: '越南文',
+            ok: '確定', cancel: '取消',
+            select: '選擇',
+            save: '儲存', edit: '編輯', delete: '刪除',
+            add: '新增', close: '關閉'
+          },
+          login: {
+            title: 'MMS 製造管理系統',
+            account: '帳號',
+            password: '密碼',
+            account_ph: '請輸入帳號',
+            password_ph: '請輸入密碼',
+            submit: '登入',
+            failed: '登入失敗'
+          },
+          topbar: { welcome: '歡迎', logout: '登出', changePwd: '修改密碼' },
+
+          menu: {
+            prod: '製造部',
+            prod1: '生產一部',
+            prod2: '生產二部',
+            prod3: '生產三部',
+            prod4: '生產四部',
+            monthlyBoard: '當月生產看板',
+            dailyBoard: '每日生產看板',
+            unclosedWO: '未結工單',
+            flow: '未結 FLOW 表單',
+            eff: '效率考績',
+            overflow: '溢領考績',
+
+            eng: '工程部',
+            sales: '業務部',
+            qc: '品保部',
+            qcStaff: 'QC人員管理',
+            mm: '資材部',
+            mmBoard: '部門看板',
+            fin: '財務部',
+            admin: '管理部',
+            staff: '人員管理',
+            ops: '作業中心',
+            keyStaff: '重點人員',
+            keyStaffPending: '重點人員待審',
+            lineLeader: '產線主管',
+            pdBoardMode: '產線看板調整',
+            attendanceDaily: '考勤日報',
+            productionDaily: '生產日報',
+            FA:'廠務',
+
+            adminGroup: '管理員',
+            permission: '權限管理',
+            account: '帳號管理',
+ 
+            attAdjustConfirm: '考勤調整確認',
+         woErpCompare:'工單 / ERP 對比',
+          }
+        },
+        en: {
+          app: { title: 'MMS Manufacturing Management System' },
+          common: {
+            language: 'Language',
+            zh: 'Chinese',
+            en: 'English',
+            vi: 'Vietnamese',
+            ok: 'OK', cancel: 'Cancel',
+            select: 'Select',
+            save: 'Save', edit: 'Edit', delete: 'Delete',
+            add: 'Add', close: 'Close'
+          },
+          login: {
+            title: 'MMS Manufacturing Management System',
+            account: 'Account',
+            password: 'Password',
+            account_ph: 'Enter account',
+            password_ph: 'Enter password',
+            submit: 'Sign in',
+            failed: 'Login failed'
+          },
+          topbar: { welcome: 'Welcome', logout: 'Log out', changePwd: 'Change password' },
+
+          menu: {
+            prod: 'Production',
+            prod1: 'Production I',
+            prod2: 'Production II',
+            prod3: 'Production III',
+            prod4: 'Production IIII',
+            monthlyBoard: 'Monthly Dashboard',
+            dailyBoard: 'Daily Dashboard',
+            unclosedWO: 'Unclosed WO',
+            flow: 'Pending FLOW Forms',
+            eff: 'Performance',
+            overflow: 'Over-claim Perf.',
+
+            eng: 'Engineering',
+            sales: 'Sales',
+            qc: 'Quality',
+            qcStaff: 'QC Staff Manager',
+            mm: 'Materials',
+            mmBoard: 'Department Board',
+            fin: 'Finance',
+            admin: 'Administration',
+            staff: 'Staff Manager',
+            ops: 'Workcenter',
+            keyStaff: 'Key Staff',
+            keyStaffPending: 'Key Staff - Pending',
+            lineLeader: 'Line Leaders',
+            pdBoardMode: 'Board Adjust',
+            attendanceDaily: 'Attendance Daily',
+            productionDaily: 'Production Daily',
+            FA:'Factory Affairs',
+            adminGroup: 'Admin',
+            permission: 'Permissions',
+            account: 'Accounts',
+                woErpCompare:'WO vs ERP',
+            // en
+attAdjustConfirm: 'Attendance Adjust Confirm',
+
+
+          }
+        },
+        vi: {
+          app: { title: 'Hệ thống quản lý sản xuất MMS' },
+          common: {
+            language: 'Ngôn ngữ',
+            zh: 'Tiếng Hoa',
+            en: 'Tiếng Anh',
+            vi: 'Tiếng Việt',
+            ok: 'Đồng ý', cancel: 'Hủy',
+            select: 'Chọn',
+            save: 'Lưu', edit: 'Sửa', delete: 'Xóa',
+            add: 'Thêm', close: 'Đóng'
+          },
+          login: {
+            title: 'Hệ thống quản lý sản xuất MMS',
+            account: 'Tài khoản',
+            password: 'Mật khẩu',
+            account_ph: 'Nhập tài khoản',
+            password_ph: 'Nhập mật khẩu',
+            submit: 'Đăng nhập',
+            failed: 'Đăng nhập thất bại'
+          },
+          topbar: { welcome: 'Xin chào', logout: 'Đăng xuất', changePwd: 'Đổi mật khẩu' },
+
+          menu: {
+            prod: 'Sản xuất',
+            prod1: 'SX I',
+            prod2: 'SX II',
+            prod3: 'SX III',
+            prod4: 'SX IIII',
+            monthlyBoard: 'Bảng SX tháng',
+            dailyBoard: 'Bảng SX ngày',
+            unclosedWO: 'WO chưa đóng',
+            flow: 'Phiếu FLOW chưa结',
+            eff: 'Hiệu suất',
+            overflow: 'Thưởng vượt',
+
+            eng: 'Kỹ thuật',
+            sales: 'Kinh doanh',
+            qc: 'Phẩm chất',
+            qcStaff: 'Quản lý nhân sự QC',
+            mm: 'Vật tư',
+            mmBoard: 'Bảng phòng ban',
+            fin: 'Tài chính',
+            admin: 'Hành chính',
+            staff: 'Quản lý nhân sự',
+            ops: 'Trung tâm công đoạn',
+            keyStaff: 'Nhân sự trọng điểm',
+            keyStaffPending: 'Trọng điểm - chờ duyệt',
+            lineLeader: 'Tổ trưởng',
+            pdBoardMode: 'Điều chỉnh bảng',
+            attendanceDaily: 'Báo cáo chấm công',
+            productionDaily: 'Báo cáo sản xuất',
+             FA:'Công việc nhà máy',
+            adminGroup: 'Quản trị',
+            permission: 'Phân quyền',
+            account: 'Tài khoản',
+            woErpCompare:'Đối chiếu WO/ERP',
+            // vi
+attAdjustConfirm: 'Xác nhận điều chỉnh chấm công',
+          }
+        }
+      };
+
+      function t(path, params) {
+        const segs = String(path).split('.');
+        let node = dict[current];
+        for (const s of segs) node = node && node[s];
+        let out = (node == null) ? path : String(node);
+        if (params && typeof params === 'object') {
+          for (const k in params) out = out.replace(new RegExp('\\{' + k + '\\}', 'g'), params[k]);
+        }
+        return out;
+      }
+      function setLang(l) {
+        if (!supported.includes(l)) return;
+        current = l;
+        localStorage.setItem(LS_KEY, l);
+        document.documentElement.setAttribute('lang', l === 'zh' ? 'zh-Hant' : l);
+        window.dispatchEvent(new CustomEvent('mms-lang-changed', { detail:{ lang:l }}));
+      }
+      function getLang(){ return current; }
+
+      window.I18N = { t, setLang, getLang, dict };
+      Vue.mixin({
+        methods: {
+          $t(key, params){ return window.I18N.t(key, params); }
+        }
+      });
+      // 初始化 <html lang>
+      document.documentElement.setAttribute('lang', current === 'zh' ? 'zh-Hant' : current);
+    })();
+  </script>
+
+  <!-- 動態載入既有元件（保留原本清單與順序） -->
+  <script>
+    const version = '202511131';
+    const addVersion = (url) => `${url}?v=${version}`;
+    document.write(`
+      <script src="${addVersion('components/dashboard.js')}"><\/script>
+      <script src="${addVersion('components/workorder.js')}"><\/script>
+      <script src="${addVersion('components/report.js')}"><\/script>
+      <script src="${addVersion('components/productionBoard.js')}"><\/script>
+      <script src="${addVersion('components/line-performance.js')}"><\/script>
+      <script src="${addVersion('components/line-performance1.js')}"><\/script>
+      <script src="${addVersion('components/line-performance3.js')}"><\/script>
+      <script src="${addVersion('components/unclosed.JS')}"><\/script>
+      <script src="${addVersion('components/flow-form.js')}"><\/script>
+      <script src="${addVersion('components/attendance-report.js')}"><\/script>
+      <script src="${addVersion('components/permission-manager.js')}"><\/script>
+      <script src="${addVersion('components/account-manager.js')}"><\/script>
+      <script src="${addVersion('components/materials-dashboard.js')}"><\/script>
+      <script src="${addVersion('components/key-staff.js')}"><\/script>
+      <script src="${addVersion('components/key-staff-pending.js')}"><\/script>
+      <script src="${addVersion('components/line-leader.js')}"><\/script>
+      <script src="${addVersion('components/effperformance.js')}"><\/script>
+      <script src="${addVersion('components/pd-board-mode.js')}"><\/script>
+      <script src="${addVersion('components/attendance-daily.js')}"><\/script>
+      <script src="${addVersion('components/production-daily.js')}"><\/script>
+      <script src="${addVersion('components/overflowperformance.js')}"><\/script>
+      <script src="${addVersion('components/staff-manager.js')}"><\/script>
+      <script src="${addVersion('components/qc-staff-manager.js')}"><\/script>
+      <script src="${addVersion('components/attendance-adjust-confirm.js')}"><\/script>
+      <script src="${addVersion('components/wo-erp-compare.js')}"><\/script>
+      <link rel="stylesheet" href="${addVersion('assets/flow-form.css')}" />
+      <link rel="stylesheet" href="${addVersion('assets/attendance-report.css')}" />
+    `);
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+
+<body>
+<div id="app">
+  <!-- Login -->
+  <div v-if="!isLoggedIn" class="login-page">
+    <img src="logo.png" alt="Logo" class="login-logo">
+    <div class="login-box">
+      <h3>{{ $t('login.title') }}</h3>
+
+      <!-- 語言切換（登入頁也可選） -->
+      <div class="mb-2 d-flex align-items-center gap-2">
+        <i class="bi bi-translate me-1"></i>
+        <el-select size="mini" v-model="currentLang" style="width:160px" @change="onLangChange">
+          <el-option label="中文" value="zh"></el-option>
+          <el-option label="English" value="en"></el-option>
+          <el-option label="Tiếng Việt" value="vi"></el-option>
+        </el-select>
+      </div>
+
+      <el-form @submit.native.prevent="login" label-position="top">
+        <el-form-item :label="$t('login.account')">
+          <el-input v-model="loginForm.username" :placeholder="$t('login.account_ph')"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('login.password')">
+          <el-input v-model="loginForm.password" type="password" :placeholder="$t('login.password_ph')"></el-input>
+        </el-form-item>
+        <el-button type="primary" native-type="submit" block>{{ $t('login.submit') }}</el-button>
+      </el-form>
+      <el-alert v-if="loginError" type="error" :title="loginError" show-icon class="mt-3"/>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div v-else>
+    <div class="topbar d-flex justify-content-between align-items-center">
+      <div>
+        <img src="logo.png" alt="logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+        <strong>{{ $t('app.title') }}</strong>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <!-- 語言切換 -->
+        <i class="bi bi-translate"></i>
+        <el-select size="mini" v-model="currentLang" style="width:150px" @change="onLangChange">
+          <el-option label="中文" value="zh"></el-option>
+          <el-option label="English" value="en"></el-option>
+          <el-option label="Tiếng Việt" value="vi"></el-option>
+        </el-select>
+
+        <span class="ms-2">{{ userInfo.username }}（{{ userInfo.role }}）</span>
+        <el-button type="danger" size="mini" @click="logout">{{ $t('topbar.logout') }}</el-button>
+        <el-button size="mini" type="warning" @click="showResetDialog = true">{{ $t('topbar.changePwd') }}</el-button>
+      </div>
+    </div>
+
+    <!-- 主選單（僅示範與 QC 相關，其他保留原功能文字或可逐步套上 $t） -->
+    <div class="navbar">
+      <el-menu mode="horizontal" background-color="#2c3e50" text-color="#fff" active-text-color="#ffd04b">
+        <el-submenu index="1">
+          <template slot="title">{{ $t('menu.prod') }}</template>
+          <el-submenu index="1-1">
+            <template slot="title">{{ $t('menu.prod1') }}</template>
+            <el-menu-item index="1-1-1"  @click="currentView = 'line-performance1'">{{ $t('menu.monthlyBoard') }}</el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="1-2">
+            <template slot="title">{{ $t('menu.prod2') }}</template>
+            <el-menu-item index="1-2-1" v-if="canAccess['line-performance']" @click="currentView = 'line-performance'">{{ $t('menu.monthlyBoard') }}</el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="1-3">
+            <template slot="title">{{ $t('menu.prod3') }}</template>
+            <el-menu-item index="1-3-1" v-if="canAccess['line-performance3']" @click="currentView = 'line-performance3'">{{ $t('menu.monthlyBoard') }}</el-menu-item>
+         </el-submenu>
+          <el-submenu index="1-21">
+            <template slot="title">{{ $t('menu.prod4') }}</template>
+            <el-menu-item index="1-21-1" v-if="canAccess['line-performance']" @click="currentView = 'line-performance'">{{ $t('menu.monthlyBoard') }}</el-menu-item>
+          </el-submenu>
+
+          <el-menu-item index="1-4" v-if="canAccess['production-board']" @click="currentView = 'production-board'">{{ $t('menu.dailyBoard') }}</el-menu-item>
+          <el-menu-item index="1-5" v-if="canAccess['unclosed-workorder']" @click="currentView = 'unclosed-workorder'">{{ $t('menu.unclosedWO') }}</el-menu-item>
+          <el-menu-item index="1-6" v-if="canAccess['flow-form']" @click="currentView = 'flow-form'">{{ $t('menu.flow') }}</el-menu-item>
+          <el-menu-item index="1-7" @click="currentView = 'effperformance'">{{ $t('menu.eff') }}</el-menu-item>
+          <el-menu-item index="1-8" @click="currentView = 'overflowperformance'">{{ $t('menu.overflow') }}</el-menu-item>
+        </el-submenu>
+
+        <el-submenu index="2">
+          <template slot="title">{{ $t('menu.eng') }}</template>
+        </el-submenu>
+
+        <el-submenu index="3">
+          <template slot="title">{{ $t('menu.sales') }}</template>
+        </el-submenu>
+
+        <el-submenu index="4">
+          <template slot="title">{{ $t('menu.qc') }}</template>
+           <el-menu-item index="4-1"  @click="currentView = 'qc-staff-manager'">{{ $t('menu.qcStaff') }}</el-menu-item>
+        </el-submenu>
+
+        <el-submenu index="5">
+          <template slot="title">{{ $t('menu.mm') }}</template>
+           <el-menu-item index="5-1"  @click="currentView = 'materials-dashboard'">{{ $t('menu.mmBoard') }}</el-menu-item>
+        </el-submenu>
+
+        <el-submenu index="6">
+          <template slot="title">{{ $t('menu.fin') }}</template>
+        </el-submenu>
+
+        <el-submenu index="7">
+          <template slot="title">{{ $t('menu.admin') }}</template>
+          <el-menu-item index="7-1" @click="currentView = 'staff-manager'">{{ $t('menu.staff') }}</el-menu-item>
+        </el-submenu>
+        <el-submenu index="8">
+          <template slot="title">{{ $t('menu.FA') }}</template>
+          <el-menu-item index="8-1" v-if="canAccess['pd-board-mode']" @click="currentView = 'pd-board-mode'">{{ $t('menu.pdBoardMode') }}</el-menu-item>
+        </el-submenu>
+
+        <el-submenu index="9">
+          <template slot="title">{{ $t('menu.ops') }}</template>
+          <el-menu-item index="9-1" v-if="canAccess['key-staff']"  @click="currentView = 'key-staff'">{{ $t('menu.keyStaff') }}</el-menu-item>
+          <el-menu-item index="9-2" v-if="canAccess['key-staff']" @click="currentView = 'key-staff-pending'">{{ $t('menu.keyStaffPending') }}</el-menu-item>
+          <el-menu-item index="9-3" v-if="canAccess['key-staff']" @click="currentView = 'line-leader'">{{ $t('menu.lineLeader') }}</el-menu-item>
+
+          <el-menu-item index="9-5" @click="currentView = 'attendance-daily'">{{ $t('menu.attendanceDaily') }}</el-menu-item>
+          <el-menu-item index="9-6" @click="currentView = 'production-daily'">{{ $t('menu.productionDaily') }}</el-menu-item>
+          <el-menu-item index="9-7" @click="currentView = 'attendance-adjust-confirm'">{{ $t('menu.attAdjustConfirm') }}</el-menu-item>
+          <el-menu-item index="9-8" @click="currentView = 'wo-erp-compare'">{{ $t('menu.woErpCompare') }}</el-menu-item>
+        </el-submenu>
+
+        <el-submenu index="10" v-if="userInfo.role === 'admin'">
+          <template slot="title">{{ $t('menu.adminGroup') }}</template>
+          <el-menu-item  index="10-1"   @click="currentView = 'permission-manager'">{{ $t('menu.permission') }}</el-menu-item>
+          <el-menu-item index="10-2"  @click="currentView = 'account-manager'">{{ $t('menu.account') }}</el-menu-item>
+        </el-submenu>
+      </el-menu>
+    </div>
+
+    <component :is="currentView + '-view'" @switch-view="handleSwitchView" :selected-dept="selectedDept" />
+  </div>
+
+  <!-- 修改密碼 -->
+  <el-dialog :title="$t('topbar.changePwd')" :visible.sync="showResetDialog" width="400px">
+    <el-form :model="resetForm">
+      <el-form-item :label="$t('login.password')">
+        <el-input v-model="resetForm.password" type="password" />
+      </el-form-item>
+      <el-form-item :label="$t('login.password')">
+        <el-input v-model="resetForm.confirm" type="password" />
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="showResetDialog = false">{{ $t('common.cancel') }}</el-button>
+      <el-button type="primary" @click="submitPassword">{{ $t('common.ok') }}</el-button>
+    </div>
+  </el-dialog>
+
+</div>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    loginForm: { username: '', password: '' },
+    loginError: '',
+    isLoggedIn: false,
+    userInfo: {},
+    currentView: 'dashboard',
+    menu: [],
+    selectedDept: '',
+    showResetDialog: false,
+    resetForm: { password: '', confirm: '' },
+    currentLang: window.I18N.getLang()
+  },
+  computed: {
+    canAccess() {
+      const map = {};
+      (this.userInfo.permissions || []).forEach(p => {
+        map[p.reportName] = p.canAccess;
+      });
+      return map;
+    }
+  },
+  methods: {
+    onLangChange(val){
+      window.I18N.setLang(val);
+      // 讓子系統能感知（已由 I18N 廣播）；此處維持本地 state
+      this.currentLang = val;
+    },
+    submitPassword() {
+      if (!this.resetForm.password || this.resetForm.password.length < 4) {
+        this.$message.warning('密碼至少需4碼');
+        return;
+      }
+      if (this.resetForm.password !== this.resetForm.confirm) {
+        this.$message.error('兩次密碼不一致');
+        return;
+      }
+      axios.post('https://mms.leapoptical.com:5088/api/LOGIN/update-password', {
+        username: this.userInfo.username,
+        password: this.resetForm.password
+      }).then(() => {
+        this.$message.success('密碼已更新');
+        this.showResetDialog = false;
+        this.resetForm.password = '';
+        this.resetForm.confirm = '';
+      }).catch(() => {
+        this.$message.error('密碼更新失敗');
+      });
+    },
+    handleSwitchView({ target, dept }) {
+      this.selectedDept = dept;
+      this.currentView = target;
+    },
+login() {
+  axios.post('https://mms.leapoptical.com:5088/api/LOGIN/login', this.loginForm)
+    .then(res => {
+      const { username, role, permissions } = res.data;
+
+      // ★ 依帳號決定可選區域
+      const uname = String(username || '').toLowerCase();
+      let allowedAreas = ['ZH','TC','VN','TW'];
+      if (uname === 'vncenter') allowedAreas = ['VN'];
+      else if (uname === 'zhcenter') allowedAreas = ['ZH'];
+
+      // ★ 存回 userInfo（包含 allowedAreas）
+      this.userInfo = { username, role, permissions, allowedAreas };
+      localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
+
+      // ★ 提供全域 helper，給子系統取用
+      window.getAllowedAreas = function () {
+        try {
+          const u = JSON.parse(localStorage.getItem('userInfo') || '{}');
+          return Array.isArray(u.allowedAreas) && u.allowedAreas.length ? u.allowedAreas : ['ZH','TC','VN','TW'];
+        } catch { return ['ZH','TC','VN','TW']; }
+      };
+
+      // ★ 廣播事件（子頁可監聽）
+      window.dispatchEvent(new CustomEvent('mms-user-changed', { detail: this.userInfo }));
+
+      this.isLoggedIn = true;
+      this.loginError = '';
+    })
+    .catch(err => {
+      this.loginError = err.response?.data?.message || this.$t('login.failed');
+    });
+},
+
+    logout() {
+      localStorage.removeItem('userInfo');
+      this.isLoggedIn = false;
+      this.loginForm = { username: '', password: '' };
+    }
+  },
+mounted() {
+  const savedUser = localStorage.getItem('userInfo');
+  if (savedUser) {
+    this.userInfo = JSON.parse(savedUser);
+    this.isLoggedIn = true;
+  }
+  // 全域 helper（避免第一次未登入時 undefined）
+  window.getAllowedAreas = window.getAllowedAreas || function () {
+    try {
+      const u = JSON.parse(localStorage.getItem('userInfo') || '{}');
+      return Array.isArray(u.allowedAreas) && u.allowedAreas.length ? u.allowedAreas : ['ZH','TC','VN','TW'];
+    } catch { return ['ZH','TC','VN','TW']; }
+  };
+  window.addEventListener('mms-lang-changed', (e) => {
+    this.currentLang = e.detail?.lang || this.currentLang;
+    this.$forceUpdate();
+  });
+}
+});
+</script>
+</body>
+</html>

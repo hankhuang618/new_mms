@@ -1,0 +1,101 @@
+/* 卡片樣式：白底黑字、圓角、陰影、放大動畫等 */
+.materials-dashboard-page .dashboard-box {
+  border-radius: 12px;                        /* 圓角 */
+  padding: 16px 20px;                         /* 內距 */
+  margin-bottom: 16px;                        /* 與下一張卡片的距離 */
+  text-align: center;                         /* 文字置中 */
+  cursor: pointer;                            /* 滑鼠變手指 */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);       /* 卡片陰影 */
+  transition: transform 0.2s;                 /* 動畫效果（放大） */
+  height: 150px;                              /* 卡片高度 */
+  display: flex;                              /* 使用 Flex 排版 */
+  flex-direction: column;                     /* 垂直排列 */
+  justify-content: flex-start;                /* 內容從上方開始排 */
+  background-color: #ffffff !important;       /* 白底（強制） */
+  color: #000000 !important;                  /* 黑字（強制） */
+  border: 1px solid #dee2e6;                  /* 灰色邊框 */
+}
+
+/* 防止 Bootstrap 顏色干擾（強制白底黑字） */
+.materials-dashboard-page .dashboard-box.bg-warning,
+.materials-dashboard-page .dashboard-box.bg-primary,
+.materials-dashboard-page .dashboard-box.bg-danger,
+.materials-dashboard-page .dashboard-box.bg-dark {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #ccc;
+}
+
+/* 滑鼠移上卡片時：放大、加強陰影 */
+.materials-dashboard-page .dashboard-box:hover {
+  transform: scale(1.1);                      /* 放大卡片 */
+  z-index: 999;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+/* 卡片上方的副標題樣式 */
+.materials-dashboard-page .dashboard-box .h6 {
+  font-size: 18px;
+  font-weight: 600;
+  opacity: 0.9;
+  margin-bottom: 4px;
+  color: #000000;
+}
+
+/* 卡片中央數值樣式 */
+.materials-dashboard-page .dashboard-box .h4 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 0px;
+  color: #000000;
+}
+
+/* 表格樣式 */
+.materials-dashboard-page .table {
+  font-size: 14px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.materials-dashboard-page .table th,
+.materials-dashboard-page .table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* 文字卡片內容置中用 */
+.materials-dashboard-page .title-only {
+  margin: auto 0;
+}
+.materials-dashboard-page .table {
+  font-size: 14px;
+}
+.materials-dashboard-page .table th {
+  background: #f8f9fa;
+  font-weight: bold;
+}
+.materials-dashboard-page h5 {
+  font-weight: bold;
+}
+/* 表格容器：允許水平滑動 */
+.materials-dashboard-page .table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* iOS 流暢滑動 */
+  margin-bottom: 1rem;
+}
+/* 表頭固定 */
+
+.materials-dashboard-page .table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #f8f9fa;  /* 背景固定，避免透明被資料蓋掉 */
+  white-space: nowrap;  /* 防止文字換行，保持表格整齊 */
+}
+.table-responsive table th,
+.table-responsive table td {
+  white-space: nowrap;
+  vertical-align: middle;
+}

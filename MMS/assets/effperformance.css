@@ -1,0 +1,54 @@
+/* assets/effperformance.css */
+.eff-page {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  font-size: 13px;
+}
+
+.eff-header label {
+  font-weight: 600;
+}
+
+.eff-header select {
+  min-width: 80px;
+}
+
+.eff-header .btn.active {
+  background-color: #007bff !important;
+  color: #fff !important;
+  border-color: #007bff !important;
+}
+
+.eff-table th {
+  background-color: #2c3e50;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #ccc;
+  padding: 4px;
+}
+
+.eff-table td {
+  border: 1px solid #ddd;
+  padding: 4px;
+  text-align: right;
+}
+
+.eff-table tr:hover {
+  background-color: #f2f2f2;
+}
+
+.bg-success {
+  background-color: #28a745 !important;
+}
+
+.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+.table-zone {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}

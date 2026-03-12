@@ -1,0 +1,30 @@
+
+.attendance-report-page .toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .attendance-report-page .report-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .attendance-report-page .detail-table {
+    margin-top: 10px;
+  }
+  
+  .attendance-report-page span.rotate {
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+  
+  .attendance-report-page tr:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .attendance-report-page span.rotate.rotate {
+    transform: rotate(90deg);
+  }
+  

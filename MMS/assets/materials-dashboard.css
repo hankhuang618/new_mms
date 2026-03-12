@@ -1,0 +1,15 @@
+/* assets/materials-dashboard.css */
+.dashboard-box {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-width: 1px;
+}
+.dashboard-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.dashboard-box.active {
+  border-width: 2px;
+  border-color: #409EFF !important; /* Element UI primary color */
+  background-color: #ecf5ff;
+}

@@ -1,0 +1,133 @@
+/* 卡片樣式：白底黑字、圓角、陰影、放大動畫等 */
+.line-performance-page .dashboard-box {
+  border-radius: 12px;                        /* 圓角 */
+  padding: 16px 20px;                         /* 內距 */
+  margin-bottom: 16px;                        /* 與下一張卡片的距離 */
+  text-align: center;                         /* 文字置中 */
+  cursor: pointer;                            /* 滑鼠變手指 */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);       /* 卡片陰影 */
+  transition: transform 0.2s;                 /* 動畫效果（放大） */
+  height: 150px;                              /* 卡片高度 */
+  display: flex;                              /* 使用 Flex 排版 */
+  flex-direction: column;                     /* 垂直排列 */
+  justify-content: flex-start;                /* 內容從上方開始排 */
+  background-color: #ffffff !important;       /* 白底（強制） */
+  color: #000000 !important;                  /* 黑字（強制） */
+  border: 1px solid #dee2e6;                  /* 灰色邊框 */
+}
+
+/* 防止 Bootstrap 顏色干擾（強制白底黑字） */
+.line-performance-page .dashboard-box.bg-warning,
+.line-performance-page .dashboard-box.bg-primary,
+.line-performance-page .dashboard-box.bg-danger,
+.line-performance-page .dashboard-box.bg-dark {
+  background-color: #ffffff !important;       /* 白底 */
+  color: #000000 !important;                  /* 黑字 */
+  border: 1px solid #ccc;                     /* 較深灰邊框 */
+}
+
+/* 滑鼠移上卡片時：放大、加強陰影 */
+.line-performance-page .dashboard-box:hover {
+  transform: scale(1.32);                     /* 放大卡片 */
+  z-index: 999;                               /* 放最上層，避免被遮蓋 */
+  position: relative;                         /* 必須設定才可用 z-index */
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);      /* 加強陰影效果 */
+}
+
+/* 卡片上方的副標題樣式 */
+.line-performance-page .dashboard-box .h6 {
+  font-size: 20px;                            /* 字體大小 */
+  font-weight: 600;                           /* 字重 */
+  opacity: 0.9;                               /* 透明度 */
+  margin-bottom: 1px;                         /* 底部間距 */
+  color: #000000;                             /* 黑字 */
+}
+
+/* 卡片中央數值樣式 */
+.line-performance-page .dashboard-box .h4 {
+  font-size: 28px;                            /* 字體大小 */
+  font-weight: bold;                          /* 粗體 */
+  margin-top: 0px;                            /* 頂部間距 */
+  color: #000000;                             /* 黑字 */
+}
+
+/* 預算圖卡內部 Chart 區塊容器 */
+.line-performance-page .dashboard-box .budget-chart-wrapper {
+  flex-grow: 1;                               /* 撐滿剩餘空間 */
+  max-height: 130px;                          /* 限制高度 */
+  overflow: hidden;                           /* 隱藏超出內容 */
+}
+
+/* 預算圖表用的卡片尺寸（2x2） */
+.line-performance-page .dashboard-box.size-2x2 {
+  height: 250px;                              /* 比一般卡片高 */
+}
+
+/* 一橫排佔滿 4 欄的小卡 */
+.line-performance-page .dashboard-box.size-1x4 {
+  grid-column: span 4;                        /* 佔 4 欄 */
+  height: 150px;                              /* 固定高度 */
+}
+
+/* 表格中低效率資料列的樣式（會閃爍） */
+.line-performance-page .low-efficiency td {
+  background-color: #ff9999 !important;       /* 背景紅色 */
+  color: white !important;                    /* 白字 */
+  font-weight: bold;                          /* 粗體 */
+  animation: blink 1.5s infinite;             /* 加上閃爍動畫 */
+}
+
+/* 閃爍動畫定義 */
+@keyframes blink {
+  0% { background-color: #f44336; }           /* 深紅 */
+  50% { background-color: #ef9a9a; }          /* 淺紅 */
+  100% { background-color: #f44336; }         /* 深紅 */
+}
+
+/* 卡片中的圖表 canvas 樣式 */
+.line-performance-page .dashboard-box canvas {
+  margin-top: 0px;                            /* 上方空間 */
+}
+
+/* 大型卡片（如效率統計） */
+.line-performance-page .large-dashboard-box {
+  height: 320px;                              /* 高度較高 */
+  min-height: 300px;                          /* 最小高度 */
+  display: flex;                              /* Flex 排版 */
+  flex-direction: column;                     /* 垂直排列 */
+  justify-content: flex-start;                /* 頂端對齊 */
+  padding: 12px 16px;                         /* 內距 */
+}
+
+/* 表格樣式 */
+.line-performance-page .table {
+  font-size: 14px;                            /* 表格字體 */
+  border-radius: 5px;                         /* 表格圓角 */
+  overflow: hidden;                           /* 超出隱藏 */
+}
+
+.line-performance-page .table th,
+.line-performance-page .table td {
+  text-align: center;                         /* 水平置中 */
+  vertical-align: middle;                     /* 垂直置中 */
+}
+
+/* 文字卡片內容置中用 */
+.line-performance-page .title-only {
+  margin: auto 0;                             /* 上下自動置中 */
+}
+
+/* 圖表區域預設 placeholder 樣式 */
+#lineChart,
+#miniChart {
+  display: block;
+  width: 100% !important;                     /* 滿寬 */
+  height: 100px !important;                   /* 固定高度 */
+  margin-top: 1px;                            /* 間距 */
+}
+
+/* Placeholder 用灰階漸層背景 */
+.line-performance-page .chart-placeholder {
+  height: 50px;
+  background: linear-gradient(to right, #ccc, #eee);
+}

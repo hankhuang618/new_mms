@@ -1,0 +1,81 @@
+.unclosed-page {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.08);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.unclosed-page .el-table th {
+  background-color: #e3f2fd !important;
+  color: #0d47a1 !important;
+  font-weight: bold;
+  text-align: center;
+}
+
+.unclosed-page .el-table td {
+  text-align: center;
+  font-size: 13px;
+}
+
+/* ✅ 點選儲存格樣式 */
+.unclosed-page .cell-selected {
+  background-color: #fff8e1 !important;
+  border: 2px solid #ff9800 !important;
+  color: #e65100 !important;
+  font-weight: bold;
+}
+
+/* ✅ 逾期欄位字紅色強調 */
+.unclosed-page .el-table__body-wrapper td[class*="逾期"],
+.unclosed-page .el-table__body td[class*="逾期"],
+.unclosed-page .el-table td[class*="逾期"],
+.unclosed-page .el-table .is-overdue {
+  color: #d32f2f !important;
+  font-weight: bold;
+}
+
+/* hover 行效果 */
+.unclosed-page .el-table__row:hover > td {
+  background-color: #e3f2fd !important;
+}
+
+/* 篩選提示 alert */
+.unclosed-page .el-alert {
+  background-color: #e3f2fd !important;
+  border-left: 4px solid #1976d2;
+  color: #0d47a1;
+  font-weight: bold;
+}
+
+.unclosed-page .el-tag {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  border-color: #90caf9;
+  font-weight: bold;
+  margin-right: 6px;
+}
+/* ✅ 所有欄位內容置中 */
+.unclosed-page .el-table th,
+.unclosed-page .el-table td {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+/* ✅ el-alert 警示框內容置中 */
+.unclosed-page .el-alert__content {
+  text-align: center;
+}
+
+/* ✅ el-tag 區域置中（如需） */
+.unclosed-page .el-tag {
+  display: inline-block;
+  text-align: center;
+  min-width: 60px;
+}
+
+/* ✅ 表格總容器置中（如果需要整體置中） */
+.unclosed-page .el-table {
+  margin-left: auto;
+  margin-right: auto;
+}
