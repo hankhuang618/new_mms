@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>MMS 製造管理系統</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="https://unpkg.com/@vue/compat@3/dist/vue.global.prod.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
@@ -20,6 +20,11 @@
   <meta http-equiv="Expires" content="0">
 
   <script>
+    // Vue 3 Compat：以 Vue 2 相容模式執行既有程式，逐步完成 Vue 3 遷移
+    if (Vue && typeof Vue.configureCompat === 'function') {
+      Vue.configureCompat({ MODE: 2 });
+    }
+
     // 每次部署改這個版本號（用日期或 git 短哈希均可）
     window.APP_BUILD = "2.35";
     (function enforceFreshIndex() {
